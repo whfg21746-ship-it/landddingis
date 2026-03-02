@@ -158,15 +158,15 @@ const TopographyBackground = () => {
         style={{ width: '100%', height: '100%' }}
       >
         {paths.map((d, i) => {
-          const opacity = 0.03 + (i % 6) * 0.01;
-          const strokeWidth = 0.4 + (i % 5) * 0.25;
+          const opacity = 0.08 + (i % 6) * 0.025;
+          const strokeWidth = 0.5 + (i % 5) * 0.3;
           const duration = 22 + (i % 9) * 2.5;
           return (
             <path
               key={i}
               d={d}
               fill="none"
-              stroke={`rgba(0,240,255,${opacity})`}
+              stroke={`rgba(57,255,20,${opacity})`}
               strokeWidth={strokeWidth}
               strokeDasharray="1200"
               strokeDashoffset="1200"
