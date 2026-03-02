@@ -8,5 +8,20 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/main.jsx"></script>
+
+    <!-- Button handlers — add your modal logic here -->
+    <script>
+      document.addEventListener('click', function (e) {
+        if (e.target.closest('.btn-launch-app')) {
+          // TODO: open launch app modal
+        }
+        if (e.target.closest('.btn-connect-wallet')) {
+          // TODO: open connect wallet modal
+        }
+        if (e.target.closest('.btn-read-docs')) {
+          // TODO: open docs / redirect
+        }
+      });
+    </script>
   </body>
 </html>

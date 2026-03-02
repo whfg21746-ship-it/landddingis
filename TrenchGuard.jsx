@@ -287,7 +287,6 @@ const ShieldLogo = ({ size = 36 }) => (
 /* ────────────── Navbar ────────────── */
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [connected, setConnected] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
@@ -343,19 +342,17 @@ const Navbar = () => {
         </button>
 
         <button
-          onClick={() => setConnected(!connected)}
-          className="connect-btn-desktop"
+          className="btn-connect-wallet connect-btn-desktop"
           style={{
-            background: connected ? 'rgba(0,240,255,0.1)' : 'transparent',
+            background: 'transparent',
             border: '1px solid rgba(0,240,255,0.5)',
-            color: connected ? '#00f0ff' : '#e8edf5',
+            color: '#e8edf5',
             padding: '8px 20px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer',
             boxShadow: '0 0 12px rgba(0,240,255,0.15)',
             transition: 'all 0.3s',
-            fontFamily: connected ? "'JetBrains Mono', monospace" : 'inherit',
           }}
         >
-          {connected ? '7fK3...a2dR' : 'Connect Wallet'}
+          Connect Wallet
         </button>
       </div>
 
@@ -372,17 +369,16 @@ const Navbar = () => {
             >{l}</a>
           ))}
           <button
-            onClick={() => { setConnected(!connected); setMobileOpen(false); }}
+            className="btn-connect-wallet"
             style={{
-              background: connected ? 'rgba(0,240,255,0.1)' : 'transparent',
+              background: 'transparent',
               border: '1px solid rgba(0,240,255,0.5)',
-              color: connected ? '#00f0ff' : '#e8edf5',
+              color: '#e8edf5',
               padding: '10px 20px', borderRadius: 8, fontSize: 13, fontWeight: 600, cursor: 'pointer',
-              fontFamily: connected ? "'JetBrains Mono', monospace" : 'inherit',
               textAlign: 'left',
             }}
           >
-            {connected ? '7fK3...a2dR' : 'Connect Wallet'}
+            Connect Wallet
           </button>
         </div>
       )}
@@ -410,10 +406,10 @@ const Hero = () => {
         </p>
 
         <div className="hero-buttons" style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 40 }}>
-          <button className="btn-primary" style={{
+          <button className="btn-primary btn-launch-app" style={{
             padding: '14px 36px', borderRadius: 10, fontSize: 15,
           }}>Launch App</button>
-          <button className="btn-outline" style={{
+          <button className="btn-outline btn-read-docs" style={{
             padding: '14px 36px', borderRadius: 10, fontSize: 15,
           }}>Read Docs</button>
         </div>
@@ -807,7 +803,7 @@ const CtaSection = () => {
           Connect your wallet and activate protection in under 30 seconds.
         </p>
 
-        <button className="btn-primary" style={{
+        <button className="btn-primary btn-launch-app" style={{
           padding: '16px 48px', borderRadius: 12, fontSize: 16,
           marginBottom: 20,
         }}>Launch App</button>
