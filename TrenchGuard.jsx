@@ -234,7 +234,7 @@ const useCounter = (end, duration = 2000, decimals = 0) => {
 };
 
 /* ────────────── Shield Logo SVG ────────────── */
-const LOGO_URL = 'https://i.imgur.com/V1S7AxS.png';
+const LOGO_URL = 'https://i.imgur.com/RTbYe0F.png';
 
 const ShieldLogo = ({ size = 36 }) => (
   <img
