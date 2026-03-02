@@ -132,6 +132,46 @@ const FontLoader = () => (
       .nav-links-desktop { display: none !important; }
       .mobile-menu-btn { display: block !important; }
       .connect-btn-desktop { display: none !important; }
+
+      .hero-section { min-height: auto !important; padding: 100px 16px 40px !important; }
+      .hero-inner { max-width: 100% !important; }
+      .hero-buttons { gap: 12px !important; }
+      .hero-buttons button { width: 100%; padding: 14px 20px !important; }
+      .hero-stats { flex-direction: column !important; gap: 4px !important; font-size: 12px !important; }
+
+      .hiw-section { padding: 60px 16px !important; }
+      .hiw-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+
+      .feed-section { padding: 60px 16px !important; }
+      .feed-entry {
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: auto auto !important;
+        gap: 4px 8px !important;
+        padding: 10px 8px !important;
+      }
+      .feed-ts { grid-column: 1; }
+      .feed-status { grid-column: 2; text-align: right; }
+      .feed-type { grid-column: 1 / -1; }
+      .feed-token { grid-column: 1; }
+      .feed-amount { grid-column: 2; text-align: right; }
+
+      .features-section { padding: 60px 16px !important; }
+      .features-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+
+      .stats-section { padding: 40px 16px !important; }
+      .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 24px 16px !important; }
+
+      .cta-section { padding: 60px 16px !important; }
+      .cta-inner { padding: 32px 20px !important; }
+      .cta-sub { font-size: 13px !important; }
+
+      .footer-inner { flex-direction: column !important; align-items: flex-start !important; gap: 20px !important; }
+      .footer-links { gap: 16px !important; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr 1fr !important; gap: 20px 12px !important; }
+      .feed-entry { font-size: 11px !important; }
     }
   `}</style>
 );
@@ -358,8 +398,8 @@ const Hero = () => {
   const responseCounter = useCounter(0.3, 1800, 1);
 
   return (
-    <section id="hero" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1, padding: '120px 24px 60px' }}>
-      <div ref={revealRef} className="reveal" style={{ textAlign: 'center', maxWidth: 800 }}>
+    <section id="hero" className="hero-section" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1, padding: '120px 24px 60px' }}>
+      <div ref={revealRef} className="reveal hero-inner" style={{ textAlign: 'center', maxWidth: 800 }}>
         <h1 className="font-heading" style={{ fontSize: 'clamp(40px, 8vw, 72px)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.03em', marginBottom: 24 }}>
           Front-Run The{' '}
           <span style={{ color: '#ff3b5c', animation: 'rugFade 4s ease infinite' }}>Rugs</span>.
@@ -369,7 +409,7 @@ const Hero = () => {
           Your positions. Protected. When a dev or whale initiates a sell large enough to crash the price 30%+, TrenchGuard intercepts it — automatically exiting your position to SOL before the dump lands. You receive a real-time alert with full details and the optimal re-entry price. Stop watching charts. Start trading protected.
         </p>
 
-        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 40 }}>
+        <div className="hero-buttons" style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 40 }}>
           <button className="btn-primary" style={{
             padding: '14px 36px', borderRadius: 10, fontSize: 15,
           }}>Launch App</button>
@@ -378,7 +418,7 @@ const Hero = () => {
           }}>Read Docs</button>
         </div>
 
-        <div className="font-mono" style={{
+        <div className="font-mono hero-stats" style={{
           display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap',
           fontSize: 13, color: '#4a5568',
         }}>
@@ -445,7 +485,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
+    <section id="how-it-works" className="hiw-section" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
       <div ref={revealRef} className="reveal" style={{ textAlign: 'center', marginBottom: 60 }}>
         <h2 className="font-heading" style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 12 }}>
           How TrenchGuard Protects You
@@ -455,7 +495,7 @@ const HowItWorks = () => {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
+      <div className="hiw-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
         {steps.map((s, i) => (
           <HowItWorksCard key={s.title} step={s} index={i} />
         ))}
@@ -504,7 +544,7 @@ const LiveFeed = () => {
   }, [makeEntry]);
 
   return (
-    <section id="live-feed" style={{ position: 'relative', zIndex: 1, padding: '80px 24px', maxWidth: 900, margin: '0 auto' }}>
+    <section id="live-feed" className="feed-section" style={{ position: 'relative', zIndex: 1, padding: '80px 24px', maxWidth: 900, margin: '0 auto' }}>
       <div ref={revealRef} className="reveal">
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
           <h2 className="font-heading" style={{ fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 800, letterSpacing: '-0.02em' }}>
@@ -558,7 +598,7 @@ const LiveFeed = () => {
               return (
                 <div
                   key={entry.id}
-                  className="font-mono"
+                  className="font-mono feed-entry"
                   style={{
                     display: 'grid',
                     gridTemplateColumns: 'auto 1fr auto auto auto',
@@ -573,11 +613,11 @@ const LiveFeed = () => {
                     transition: 'opacity 0.5s',
                   }}
                 >
-                  <span style={{ color: '#4a5568' }}>[{entry.ts}]</span>
-                  <span style={{ color: '#8892a4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{entry.type}</span>
-                  <span style={{ color: '#00f0ff', fontWeight: 600 }}>{entry.token}</span>
-                  <span style={{ color: '#8892a4' }}>{entry.amount}</span>
-                  <span style={{
+                  <span className="feed-ts" style={{ color: '#4a5568' }}>[{entry.ts}]</span>
+                  <span className="feed-type" style={{ color: '#8892a4', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{entry.type}</span>
+                  <span className="feed-token" style={{ color: '#00f0ff', fontWeight: 600 }}>{entry.token}</span>
+                  <span className="feed-amount" style={{ color: '#8892a4' }}>{entry.amount}</span>
+                  <span className="feed-status" style={{
                     color: statusColor, fontWeight: 600,
                     padding: '2px 8px', borderRadius: 4,
                     background: statusBg,
@@ -681,7 +721,7 @@ const FeaturesGrid = () => {
   const revealRef = useReveal();
 
   return (
-    <section id="features" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1100, margin: '0 auto' }}>
+    <section id="features" className="features-section" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1100, margin: '0 auto' }}>
       <div ref={revealRef} className="reveal" style={{ textAlign: 'center', marginBottom: 48 }}>
         <h2 className="font-heading" style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 12 }}>
           Built for the Trenches
@@ -689,7 +729,7 @@ const FeaturesGrid = () => {
         <p style={{ color: '#8892a4', fontSize: 16 }}>Every feature designed for degen-speed trading</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
+      <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
         {FEATURES.map((f, i) => (
           <FeatureCard key={f.title} feature={f} index={i} />
         ))}
@@ -713,12 +753,12 @@ const StatsBar = () => {
   ];
 
   return (
-    <section id="stats" style={{
+    <section id="stats" className="stats-section" style={{
       position: 'relative', zIndex: 1, padding: '60px 24px',
       borderTop: '1px solid #1a2235', borderBottom: '1px solid #1a2235',
       background: 'rgba(6,8,13,0.6)',
     }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 32, textAlign: 'center' }}>
+      <div className="stats-grid" style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 32, textAlign: 'center' }}>
         {stats.map(s => (
           <div key={s.label} ref={s.ref}>
             <div className="font-mono" style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, color: '#e8edf5', marginBottom: 6 }}>{s.val}</div>
@@ -735,8 +775,8 @@ const CtaSection = () => {
   const revealRef = useReveal();
 
   return (
-    <section style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 700, margin: '0 auto' }}>
-      <div ref={revealRef} className="reveal"
+    <section className="cta-section" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 700, margin: '0 auto' }}>
+      <div ref={revealRef} className="reveal cta-inner"
         style={{
           borderRadius: 20, padding: 'clamp(32px, 5vw, 60px)',
           background: '#0c1018',
@@ -772,7 +812,7 @@ const CtaSection = () => {
           marginBottom: 20,
         }}>Launch App</button>
 
-        <p className="font-mono" style={{ color: '#4a5568', fontSize: 13 }}>
+        <p className="font-mono cta-sub" style={{ color: '#4a5568', fontSize: 13 }}>
           No minimum deposit&nbsp;&nbsp;&middot;&nbsp;&nbsp;Cancel anytime&nbsp;&nbsp;&middot;&nbsp;&nbsp;0.5% protection fee
         </p>
       </div>
@@ -789,7 +829,7 @@ const Footer = () => (
       background: 'linear-gradient(90deg, transparent, rgba(0,240,255,0.3), transparent)',
     }} />
 
-    <div style={{
+    <div className="footer-inner" style={{
       maxWidth: 1100, margin: '0 auto',
       display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 16,
     }}>
@@ -801,7 +841,7 @@ const Footer = () => (
         <span style={{ color: '#4a5568', fontSize: 12 }}>2025 TrenchGuard</span>
       </div>
 
-      <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+      <div className="footer-links" style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
         {['Docs', 'GitHub', 'Twitter', 'Discord', 'Telegram'].map(l => (
           <a key={l} href="#" style={{ color: '#4a5568', fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
             onMouseEnter={e => e.target.style.color = '#e8edf5'}
