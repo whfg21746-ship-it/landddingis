@@ -444,67 +444,21 @@ const HowItWorksCard = ({ step: s, index: i }) => {
     >
       {/* Top glow line */}
       <div style={{
-        height: 3,
+        height: 2,
         background: `linear-gradient(90deg, transparent, ${s.color}, transparent)`,
-        opacity: 0.8,
+        opacity: 0.7,
       }} />
 
-      {/* Image area */}
-      <div style={{
-        position: 'relative',
-        overflow: 'hidden',
-        aspectRatio: '16/10',
-        background: `linear-gradient(180deg, ${s.color}08, #0c1018)`,
-      }}>
-        <img
-          src={s.image}
-          alt={s.title}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block',
-            opacity: 0.9,
-          }}
-        />
-        {/* Gradient overlay on image */}
-        <div style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
-          background: 'linear-gradient(transparent, #0c1018)',
-          pointerEvents: 'none',
-        }} />
-        {/* Step number badge */}
-        <div className="font-mono" style={{
-          position: 'absolute', top: 16, left: 16,
-          width: 32, height: 32, borderRadius: 8,
-          background: 'rgba(12,16,24,0.85)',
-          border: `1px solid ${s.color}40`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 13, fontWeight: 700, color: s.color,
-          backdropFilter: 'blur(8px)',
-        }}>
-          {String(i + 1).padStart(2, '0')}
-        </div>
-      </div>
-
-      {/* Content area */}
-      <div style={{ padding: '24px 28px 28px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-          <div style={{ opacity: 0.85 }}>{s.icon}</div>
-          <h3 className="font-heading" style={{
-            fontSize: 22, fontWeight: 800, color: '#e8edf5',
-          }}>{s.title}</h3>
-        </div>
-        <p style={{ color: '#8892a4', fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
-          {s.desc}
-        </p>
-        <span className="font-mono" style={{
-          fontSize: 11, color: s.color, padding: '5px 12px',
-          border: `1px solid ${s.color}35`, borderRadius: 6,
-          background: `${s.color}0a`,
-          letterSpacing: '0.02em',
-        }}>{s.tag}</span>
-      </div>
+      {/* Image only */}
+      <img
+        src={s.image}
+        alt={s.title}
+        style={{
+          width: '100%',
+          height: 'auto',
+          display: 'block',
+        }}
+      />
     </div>
   );
 };
@@ -513,43 +467,9 @@ const HowItWorks = () => {
   const revealRef = useReveal();
 
   const steps = [
-    {
-      title: 'Detect', color: '#00f0ff',
-      image: 'https://i.imgur.com/ZolZcRd.jpeg',
-      desc: 'TrenchGuard monitors every token in your portfolio across all Solana DEXs. We track dev wallets, whale positions, and liquidity changes in real-time.',
-      tag: '< 400ms detection',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-          <circle cx="14" cy="14" r="10" stroke="#00f0ff" strokeWidth="2" />
-          <line x1="21" y1="21" x2="28" y2="28" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
-          <circle cx="14" cy="14" r="4" stroke="#00f0ff" strokeWidth="1.5" strokeDasharray="3 3" />
-        </svg>
-      ),
-    },
-    {
-      title: 'Intercept', color: '#7b61ff',
-      image: 'https://i.imgur.com/Oe2UUrw.jpeg',
-      desc: 'When a threatening sell is detected, TrenchGuard constructs a priority transaction via Jito bundles, exiting your position before the dump impacts the price.',
-      tag: 'Jito Bundle Priority',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-          <path d="M16 3L5 9v8c0 7 4.5 13 11 14.5C22.5 30 27 24 27 17V9L16 3z" stroke="#7b61ff" strokeWidth="2" />
-          <path d="M11 16l3.5 3.5L21 13" stroke="#7b61ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      ),
-    },
-    {
-      title: 'Alert & Re-Entry', color: '#00ff88',
-      image: 'https://i.imgur.com/uul8xRq.jpeg',
-      desc: 'You get an instant alert showing the detected threat, your protected position, and the exact price drop %. This gives you a new, better entry point to re-buy the same token at a lower price.',
-      tag: 'Instant Telegram Alert',
-      icon: (
-        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
-          <path d="M16 4C12 4 9 7 9 11v6l-3 3v1h20v-1l-3-3v-6c0-4-3-7-7-7z" stroke="#00ff88" strokeWidth="2" strokeLinejoin="round" />
-          <path d="M13 22c0 1.7 1.3 3 3 3s3-1.3 3-3" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" />
-        </svg>
-      ),
-    },
+    { title: 'Detect', color: '#00f0ff', image: 'https://i.imgur.com/ZolZcRd.jpeg' },
+    { title: 'Intercept', color: '#7b61ff', image: 'https://i.imgur.com/Oe2UUrw.jpeg' },
+    { title: 'Alert & Re-Entry', color: '#00ff88', image: 'https://i.imgur.com/uul8xRq.jpeg' },
   ];
 
   return (
