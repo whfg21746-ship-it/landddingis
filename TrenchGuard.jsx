@@ -433,7 +433,7 @@ const HowItWorks = () => {
   const steps = [
     {
       title: 'Detect', color: '#00f0ff',
-      image: '/detect.png',
+      image: 'https://i.imgur.com/ZolZcRd.jpeg',
       desc: 'TrenchGuard monitors every token in your portfolio across all Solana DEXs. We track dev wallets, whale positions, and liquidity changes in real-time.',
       tag: '< 400ms detection',
       icon: (
@@ -446,7 +446,7 @@ const HowItWorks = () => {
     },
     {
       title: 'Intercept', color: '#7b61ff',
-      image: '/intercept.png',
+      image: 'https://i.imgur.com/Oe2UUrw.jpeg',
       desc: 'When a threatening sell is detected, TrenchGuard constructs a priority transaction via Jito bundles, exiting your position before the dump impacts the price.',
       tag: 'Jito Bundle Priority',
       icon: (
@@ -458,7 +458,7 @@ const HowItWorks = () => {
     },
     {
       title: 'Alert & Re-Entry', color: '#00ff88',
-      image: '/reentry.png',
+      image: 'https://i.imgur.com/uul8xRq.jpeg',
       desc: 'You get an instant alert showing the detected threat, your protected position, and the exact price drop %. This gives you a new, better entry point to re-buy the same token at a lower price.',
       tag: 'Instant Telegram Alert',
       icon: (
