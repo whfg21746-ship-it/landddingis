@@ -234,42 +234,14 @@ const useCounter = (end, duration = 2000, decimals = 0) => {
 };
 
 /* ────────────── Shield Logo SVG ────────────── */
-const ShieldLogo = ({ size = 28 }) => (
-  <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
-    {/* Outer shield shape - angular/geometric */}
-    <path
-      d="M32 4L8 16v16c0 14 10 26 24 28 14-2 24-14 24-28V16L32 4z"
-      fill="none"
-      stroke="#00f0ff"
-      strokeWidth="2.5"
-      strokeLinejoin="round"
-    />
-    {/* Inner geometric facets */}
-    <path d="M32 4L32 32" stroke="rgba(0,240,255,0.25)" strokeWidth="1" />
-    <path d="M8 16L32 32" stroke="rgba(0,240,255,0.15)" strokeWidth="1" />
-    <path d="M56 16L32 32" stroke="rgba(0,240,255,0.15)" strokeWidth="1" />
-    {/* Center checkmark */}
-    <path
-      d="M22 32l7 7 13-16"
-      stroke="#00f0ff"
-      strokeWidth="3"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    {/* Top accent line */}
-    <path
-      d="M32 4L8 16"
-      stroke="#00f0ff"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-    />
-    <path
-      d="M32 4L56 16"
-      stroke="#00f0ff"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-    />
-  </svg>
+const LOGO_URL = 'https://i.imgur.com/V1S7AxS.png';
+
+const ShieldLogo = ({ size = 36 }) => (
+  <img
+    src={LOGO_URL}
+    alt="TrenchGuard"
+    style={{ height: size, width: 'auto', display: 'block' }}
+  />
 );
 
 /* ────────────── Navbar ────────────── */
@@ -304,7 +276,7 @@ const Navbar = () => {
 
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
-          <ShieldLogo />
+          <ShieldLogo size={36} />
           <span className="font-heading" style={{ fontSize: 18, fontWeight: 700, color: '#e8edf5', letterSpacing: '-0.02em' }}>TrenchGuard</span>
         </div>
 
@@ -823,7 +795,7 @@ const Footer = () => (
     }}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <ShieldLogo size={20} />
+          <ShieldLogo size={24} />
           <span className="font-heading" style={{ fontSize: 15, fontWeight: 700, color: '#e8edf5' }}>TrenchGuard</span>
         </div>
         <span style={{ color: '#4a5568', fontSize: 12 }}>2025 TrenchGuard</span>
