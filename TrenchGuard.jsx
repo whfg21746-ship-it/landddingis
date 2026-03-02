@@ -394,7 +394,7 @@ const Hero = () => {
         </h1>
 
         <p style={{ color: '#8892a4', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.7, maxWidth: 620, margin: '0 auto 40px' }}>
-          When TrenchGuard detects a large sell that could crash the price by 30% or more, your position is automatically swapped to SOL before the dump hits. You get an instant alert with the details and the exact price drop, giving you a perfect re-entry point to buy back cheaper.
+          Your positions. Protected. When a dev or whale initiates a sell large enough to crash the price 30%+, TrenchGuard intercepts it — automatically exiting your position to SOL before the dump lands. You receive a real-time alert with full details and the optimal re-entry price. Stop watching charts. Start trading protected.
         </p>
 
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 40 }}>
