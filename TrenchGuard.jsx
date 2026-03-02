@@ -27,10 +27,18 @@ const FontLoader = () => (
       50% { text-shadow: 0 0 8px rgba(255,59,92,0.15), 0 0 16px rgba(255,59,92,0.08); }
       100% { text-shadow: 0 0 20px rgba(255,59,92,0.6), 0 0 40px rgba(255,59,92,0.3); }
     }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
 
     ${Array.from({ length: 25 }, (_, i) => `
     @keyframes topoFlow${i} {
-      0% { stroke-dashoffset: ${800 + i * 40}; }
+      0% { stroke-dashoffset: ${1200 + i * 50}; }
       100% { stroke-dashoffset: 0; }
     }`).join('')}
 
@@ -57,13 +65,41 @@ const FontLoader = () => (
       box-shadow: 0 8px 32px rgba(0, 240, 255, 0.06);
     }
 
-    .btn-glow {
+    .btn-primary {
+      background: #00f0ff;
+      color: #06080d;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
       box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), inset 0 1px 0 rgba(255,255,255,0.1);
       transition: box-shadow 0.3s, transform 0.2s;
     }
-    .btn-glow:hover {
+    .btn-primary:hover {
       box-shadow: 0 0 30px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.2);
       transform: translateY(-1px);
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease infinite;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #00f0ff;
+      border: 1px solid rgba(0,240,255,0.4);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn-outline:hover {
+      background: rgba(0,240,255,0.1);
+      border-color: rgba(0,240,255,0.7);
     }
 
     .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -73,6 +109,19 @@ const FontLoader = () => (
     .reveal-delay-3 { transition-delay: 0.3s; }
     .reveal-delay-4 { transition-delay: 0.4s; }
     .reveal-delay-5 { transition-delay: 0.5s; }
+
+    .hiw-card {
+      background: #0c1018;
+      border: 1px solid #1a2235;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+    .hiw-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      border-color: rgba(0,240,255,0.2);
+    }
 
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #06080d; }
@@ -89,45 +138,29 @@ const FontLoader = () => (
 
 /* ────────────── Topography SVG Background ────────────── */
 const TopographyBackground = () => {
-  const paths = [
-    'M-50,120 C200,100 400,180 600,140 S1000,100 1200,160 S1600,120 1950,150',
-    'M-50,200 C150,220 350,160 550,210 S800,250 1050,190 S1400,230 1950,200',
-    'M-50,300 C180,280 380,340 580,290 S900,260 1100,320 S1500,280 1950,310',
-    'M-50,80 C250,60 450,120 650,70 S950,50 1150,100 S1450,80 1950,60',
-    'M-50,400 C200,380 400,440 600,390 S900,420 1100,370 S1500,410 1950,390',
-    'M-50,160 C300,140 500,200 700,150 S1000,180 1200,130 S1500,170 1950,140',
-    'M-50,500 C150,520 350,470 550,510 S850,480 1050,530 S1400,490 1950,520',
-    'M-50,240 C220,260 420,210 620,250 S920,230 1120,270 S1420,240 1950,260',
-    'M-50,340 C280,320 480,370 680,330 S980,360 1180,310 S1480,350 1950,330',
-    'M-50,440 C170,460 370,410 570,450 S870,430 1070,470 S1370,440 1950,460',
-    'M-50,560 C240,540 440,590 640,550 S940,580 1140,530 S1440,570 1950,550',
-    'M-50,50 C190,70 390,30 590,60 S890,40 1090,70 S1390,50 1950,40',
-    'M-50,620 C210,640 410,600 610,630 S910,610 1110,650 S1410,620 1950,640',
-    'M-50,700 C260,680 460,720 660,690 S960,710 1160,670 S1460,700 1950,690',
-    'M-50,360 C230,340 430,390 630,350 S930,380 1130,340 S1430,370 1950,350',
-    'M-50,180 C270,200 470,150 670,190 S970,170 1170,210 S1470,180 1950,200',
-    'M-50,520 C160,500 360,550 560,510 S860,540 1060,500 S1360,530 1950,510',
-    'M-50,660 C190,680 390,640 590,670 S890,650 1090,690 S1390,660 1950,680',
-    'M-50,280 C250,300 450,260 650,290 S950,270 1150,300 S1450,280 1950,300',
-    'M-50,750 C200,730 400,770 600,740 S900,760 1100,730 S1400,750 1950,740',
-    'M-50,130 C210,150 410,110 610,140 S910,120 1110,150 S1410,130 1950,150',
-    'M-50,420 C180,440 380,400 580,430 S880,410 1080,440 S1380,420 1950,440',
-    'M-50,580 C230,560 430,610 630,570 S930,600 1130,560 S1430,590 1950,570',
-    'M-50,30 C200,50 400,10 600,40 S900,20 1100,50 S1400,30 1950,20',
-    'M-50,480 C160,500 360,460 560,490 S860,470 1060,500 S1360,480 1950,500',
-  ];
+  const paths = [];
+  for (let i = 0; i < 28; i++) {
+    const y = 20 + (i * 30) + (i % 3) * 15;
+    const c1y = y + (i % 2 === 0 ? -30 : 30) + (i % 5) * 6;
+    const c2y = y + (i % 2 === 0 ? 25 : -25) - (i % 4) * 5;
+    const c3y = y + (i % 3 === 0 ? -20 : 20) + (i % 7) * 3;
+    const c4y = y + (i % 2 === 0 ? 15 : -15) - (i % 3) * 8;
+    paths.push(
+      `M-60,${y} C${150 + i * 10},${c1y} ${350 + i * 5},${c2y} ${550 + i * 8},${c3y} S${850 + i * 6},${c4y} ${1100 + i * 4},${c1y + 10} S${1450 + i * 3},${c2y - 5} 1960,${y + (i % 6) * 4}`
+    );
+  }
 
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, pointerEvents: 'none' }}>
       <svg
-        viewBox="0 0 1900 800"
+        viewBox="0 0 1900 900"
         preserveAspectRatio="xMidYMid slice"
         style={{ width: '100%', height: '100%' }}
       >
         {paths.map((d, i) => {
-          const opacity = 0.04 + (i % 5) * 0.01;
-          const strokeWidth = 0.5 + (i % 4) * 0.3;
-          const duration = 20 + (i % 7) * 3;
+          const opacity = 0.03 + (i % 6) * 0.01;
+          const strokeWidth = 0.4 + (i % 5) * 0.25;
+          const duration = 22 + (i % 9) * 2.5;
           return (
             <path
               key={i}
@@ -135,10 +168,10 @@ const TopographyBackground = () => {
               fill="none"
               stroke={`rgba(0,240,255,${opacity})`}
               strokeWidth={strokeWidth}
-              strokeDasharray="800"
-              strokeDashoffset="800"
+              strokeDasharray="1200"
+              strokeDashoffset="1200"
               style={{
-                animation: `topoFlow${i} ${duration}s linear infinite`,
+                animation: `topoFlow${i % 25} ${duration}s linear infinite`,
               }}
             />
           );
@@ -202,10 +235,40 @@ const useCounter = (end, duration = 2000, decimals = 0) => {
 
 /* ────────────── Shield Logo SVG ────────────── */
 const ShieldLogo = ({ size = 28 }) => (
-  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
-    <path d="M16 2L4 8v8c0 7.1 5.1 13.7 12 15.3C22.9 29.7 28 23.1 28 16V8L16 2z"
-      fill="none" stroke="#00f0ff" strokeWidth="2" />
-    <path d="M12 16l3 3 5-6" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  <svg width={size} height={size} viewBox="0 0 64 64" fill="none">
+    {/* Outer shield shape - angular/geometric */}
+    <path
+      d="M32 4L8 16v16c0 14 10 26 24 28 14-2 24-14 24-28V16L32 4z"
+      fill="none"
+      stroke="#00f0ff"
+      strokeWidth="2.5"
+      strokeLinejoin="round"
+    />
+    {/* Inner geometric facets */}
+    <path d="M32 4L32 32" stroke="rgba(0,240,255,0.25)" strokeWidth="1" />
+    <path d="M8 16L32 32" stroke="rgba(0,240,255,0.15)" strokeWidth="1" />
+    <path d="M56 16L32 32" stroke="rgba(0,240,255,0.15)" strokeWidth="1" />
+    {/* Center checkmark */}
+    <path
+      d="M22 32l7 7 13-16"
+      stroke="#00f0ff"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    {/* Top accent line */}
+    <path
+      d="M32 4L8 16"
+      stroke="#00f0ff"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+    />
+    <path
+      d="M32 4L56 16"
+      stroke="#00f0ff"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+    />
   </svg>
 );
 
@@ -321,7 +384,6 @@ const Hero = () => {
   const positionsCounter = useCounter(14847, 2200);
   const savedCounter = useCounter(12.4, 2000, 1);
   const responseCounter = useCounter(0.3, 1800, 1);
-  const statsRef = useRef(null);
 
   return (
     <section id="hero" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1, padding: '120px 24px 60px' }}>
@@ -336,21 +398,15 @@ const Hero = () => {
         </p>
 
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 40 }}>
-          <button className="btn-glow" style={{
-            background: '#00f0ff', color: '#06080d', border: 'none',
-            padding: '14px 36px', borderRadius: 10, fontSize: 15, fontWeight: 700, cursor: 'pointer',
+          <button className="btn-primary" style={{
+            padding: '14px 36px', borderRadius: 10, fontSize: 15,
           }}>Launch App</button>
-          <button style={{
-            background: 'transparent', color: '#00f0ff', border: '1px solid rgba(0,240,255,0.4)',
-            padding: '14px 36px', borderRadius: 10, fontSize: 15, fontWeight: 600, cursor: 'pointer',
-            transition: 'all 0.3s',
-          }}
-            onMouseEnter={e => { e.target.style.background = 'rgba(0,240,255,0.1)'; }}
-            onMouseLeave={e => { e.target.style.background = 'transparent'; }}
-          >Read Docs</button>
+          <button className="btn-outline" style={{
+            padding: '14px 36px', borderRadius: 10, fontSize: 15,
+          }}>Read Docs</button>
         </div>
 
-        <div ref={statsRef} className="font-mono" style={{
+        <div className="font-mono" style={{
           display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap',
           fontSize: 13, color: '#4a5568',
         }}>
@@ -380,49 +436,75 @@ const Hero = () => {
 /* ────────────── How It Works ────────────── */
 const HowItWorksCard = ({ step: s, index: i }) => {
   const cardRef = useReveal();
-  const [imgError, setImgError] = useState(false);
-
-  if (s.image && !imgError) {
-    return (
-      <div
-        ref={cardRef}
-        className={`reveal reveal-delay-${i + 1}`}
-        style={{ borderRadius: 16, overflow: 'hidden' }}
-      >
-        <img
-          src={s.image}
-          alt={s.title}
-          onError={() => setImgError(true)}
-          style={{
-            width: '100%',
-            height: 'auto',
-            display: 'block',
-            borderRadius: 16,
-            border: '1px solid #1a2235',
-          }}
-        />
-      </div>
-    );
-  }
 
   return (
     <div
       ref={cardRef}
-      className={`reveal card-glass reveal-delay-${i + 1}`}
-      style={{
-        borderRadius: 16, padding: 32,
-        borderTop: `2px solid ${s.color}`,
-        boxShadow: `0 -4px 20px ${s.color}15`,
-      }}
+      className={`reveal hiw-card reveal-delay-${i + 1}`}
     >
-      <div style={{ marginBottom: 20, opacity: 0.9 }}>{s.icon}</div>
-      <h3 className="font-heading" style={{ fontSize: 22, fontWeight: 800, marginBottom: 12, color: '#e8edf5' }}>{s.title}</h3>
-      <p style={{ color: '#8892a4', fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>{s.desc}</p>
-      <span className="font-mono" style={{
-        fontSize: 11, color: s.color, padding: '4px 10px',
-        border: `1px solid ${s.color}40`, borderRadius: 6,
-        background: `${s.color}10`,
-      }}>{s.tag}</span>
+      {/* Top glow line */}
+      <div style={{
+        height: 3,
+        background: `linear-gradient(90deg, transparent, ${s.color}, transparent)`,
+        opacity: 0.8,
+      }} />
+
+      {/* Image area */}
+      <div style={{
+        position: 'relative',
+        overflow: 'hidden',
+        aspectRatio: '16/10',
+        background: `linear-gradient(180deg, ${s.color}08, #0c1018)`,
+      }}>
+        <img
+          src={s.image}
+          alt={s.title}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            opacity: 0.9,
+          }}
+        />
+        {/* Gradient overlay on image */}
+        <div style={{
+          position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%',
+          background: 'linear-gradient(transparent, #0c1018)',
+          pointerEvents: 'none',
+        }} />
+        {/* Step number badge */}
+        <div className="font-mono" style={{
+          position: 'absolute', top: 16, left: 16,
+          width: 32, height: 32, borderRadius: 8,
+          background: 'rgba(12,16,24,0.85)',
+          border: `1px solid ${s.color}40`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 13, fontWeight: 700, color: s.color,
+          backdropFilter: 'blur(8px)',
+        }}>
+          {String(i + 1).padStart(2, '0')}
+        </div>
+      </div>
+
+      {/* Content area */}
+      <div style={{ padding: '24px 28px 28px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+          <div style={{ opacity: 0.85 }}>{s.icon}</div>
+          <h3 className="font-heading" style={{
+            fontSize: 22, fontWeight: 800, color: '#e8edf5',
+          }}>{s.title}</h3>
+        </div>
+        <p style={{ color: '#8892a4', fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
+          {s.desc}
+        </p>
+        <span className="font-mono" style={{
+          fontSize: 11, color: s.color, padding: '5px 12px',
+          border: `1px solid ${s.color}35`, borderRadius: 6,
+          background: `${s.color}0a`,
+          letterSpacing: '0.02em',
+        }}>{s.tag}</span>
+      </div>
     </div>
   );
 };
@@ -437,7 +519,7 @@ const HowItWorks = () => {
       desc: 'TrenchGuard monitors every token in your portfolio across all Solana DEXs. We track dev wallets, whale positions, and liquidity changes in real-time.',
       tag: '< 400ms detection',
       icon: (
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
           <circle cx="14" cy="14" r="10" stroke="#00f0ff" strokeWidth="2" />
           <line x1="21" y1="21" x2="28" y2="28" stroke="#00f0ff" strokeWidth="2" strokeLinecap="round" />
           <circle cx="14" cy="14" r="4" stroke="#00f0ff" strokeWidth="1.5" strokeDasharray="3 3" />
@@ -450,7 +532,7 @@ const HowItWorks = () => {
       desc: 'When a threatening sell is detected, TrenchGuard constructs a priority transaction via Jito bundles, exiting your position before the dump impacts the price.',
       tag: 'Jito Bundle Priority',
       icon: (
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
           <path d="M16 3L5 9v8c0 7 4.5 13 11 14.5C22.5 30 27 24 27 17V9L16 3z" stroke="#7b61ff" strokeWidth="2" />
           <path d="M11 16l3.5 3.5L21 13" stroke="#7b61ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
@@ -462,7 +544,7 @@ const HowItWorks = () => {
       desc: 'You get an instant alert showing the detected threat, your protected position, and the exact price drop %. This gives you a new, better entry point to re-buy the same token at a lower price.',
       tag: 'Instant Telegram Alert',
       icon: (
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
           <path d="M16 4C12 4 9 7 9 11v6l-3 3v1h20v-1l-3-3v-6c0-4-3-7-7-7z" stroke="#00ff88" strokeWidth="2" strokeLinejoin="round" />
           <path d="M13 22c0 1.7 1.3 3 3 3s3-1.3 3-3" stroke="#00ff88" strokeWidth="2" strokeLinecap="round" />
         </svg>
@@ -471,7 +553,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section id="how-it-works" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1100, margin: '0 auto' }}>
+    <section id="how-it-works" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1200, margin: '0 auto' }}>
       <div ref={revealRef} className="reveal" style={{ textAlign: 'center', marginBottom: 60 }}>
         <h2 className="font-heading" style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 12 }}>
           How TrenchGuard Protects You
@@ -481,7 +563,7 @@ const HowItWorks = () => {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
         {steps.map((s, i) => (
           <HowItWorksCard key={s.title} step={s} index={i} />
         ))}
@@ -793,9 +875,8 @@ const CtaSection = () => {
           Connect your wallet and activate protection in under 30 seconds.
         </p>
 
-        <button className="btn-glow" style={{
-          background: '#00f0ff', color: '#06080d', border: 'none',
-          padding: '16px 48px', borderRadius: 12, fontSize: 16, fontWeight: 700, cursor: 'pointer',
+        <button className="btn-primary" style={{
+          padding: '16px 48px', borderRadius: 12, fontSize: 16,
           marginBottom: 20,
         }}>Launch App</button>
 
@@ -825,7 +906,7 @@ const Footer = () => (
           <ShieldLogo size={20} />
           <span className="font-heading" style={{ fontSize: 15, fontWeight: 700, color: '#e8edf5' }}>TrenchGuard</span>
         </div>
-        <span style={{ color: '#4a5568', fontSize: 12 }}>© 2025 TrenchGuard</span>
+        <span style={{ color: '#4a5568', fontSize: 12 }}>2025 TrenchGuard</span>
       </div>
 
       <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
