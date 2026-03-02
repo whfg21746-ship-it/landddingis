@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
-/* ───────────────────────── Font Loader & Global Styles ───────────────────────── */
+/* ────────────── Font Loader & Global Styles ────────────── */
 const FontLoader = () => (
   <style>{`
     @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,800,900&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
     @keyframes pulseGlow {
       0%, 100% { opacity: 0.6; }
@@ -47,9 +47,7 @@ const FontLoader = () => (
     .font-heading { font-family: 'Satoshi', sans-serif; }
 
     .card-glass {
-      background: rgba(12, 16, 24, 0.7);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: #0c1018;
       border: 1px solid #1a2235;
       transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
@@ -89,7 +87,7 @@ const FontLoader = () => (
   `}</style>
 );
 
-/* ───────────────────────── Topography SVG Background ───────────────────────── */
+/* ────────────── Topography SVG Background ────────────── */
 const TopographyBackground = () => {
   const paths = [
     'M-50,120 C200,100 400,180 600,140 S1000,100 1200,160 S1600,120 1950,150',
@@ -150,7 +148,7 @@ const TopographyBackground = () => {
   );
 };
 
-/* ───────────────────────── Intersection Observer Hook ───────────────────────── */
+/* ────────────── Intersection Observer Hook ────────────── */
 const useReveal = () => {
   const ref = useRef(null);
   useEffect(() => {
@@ -166,7 +164,7 @@ const useReveal = () => {
   return ref;
 };
 
-/* ───────────────────────── Animated Counter Hook ───────────────────────── */
+/* ────────────── Animated Counter Hook ────────────── */
 const useCounter = (end, duration = 2000, decimals = 0) => {
   const [val, setVal] = useState(0);
   const ref = useRef(null);
@@ -202,7 +200,7 @@ const useCounter = (end, duration = 2000, decimals = 0) => {
   return { ref, val };
 };
 
-/* ───────────────────────── Shield Logo SVG ───────────────────────── */
+/* ────────────── Shield Logo SVG ────────────── */
 const ShieldLogo = ({ size = 28 }) => (
   <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
     <path d="M16 2L4 8v8c0 7.1 5.1 13.7 12 15.3C22.9 29.7 28 23.1 28 16V8L16 2z"
@@ -211,7 +209,7 @@ const ShieldLogo = ({ size = 28 }) => (
   </svg>
 );
 
-/* ───────────────────────── Navbar ───────────────────────── */
+/* ────────────── Navbar ────────────── */
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [connected, setConnected] = useState(false);
@@ -244,7 +242,7 @@ const Navbar = () => {
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
           <ShieldLogo />
-          <span className="font-heading" style={{ fontSize: 18, fontWeight: 800, color: '#e8edf5', letterSpacing: '-0.02em' }}>TrenchGuard</span>
+          <span className="font-heading" style={{ fontSize: 18, fontWeight: 700, color: '#e8edf5', letterSpacing: '-0.02em' }}>TrenchGuard</span>
         </div>
 
         <div style={{ display: 'flex', gap: 32 }} className="nav-links-desktop">
@@ -282,7 +280,7 @@ const Navbar = () => {
             fontFamily: connected ? "'JetBrains Mono', monospace" : 'inherit',
           }}
         >
-          {connected ? '7fK3...a2dR Connected' : 'Connect Wallet'}
+          {connected ? '7fK3...a2dR' : 'Connect Wallet'}
         </button>
       </div>
 
@@ -309,7 +307,7 @@ const Navbar = () => {
               textAlign: 'left',
             }}
           >
-            {connected ? '7fK3...a2dR Connected' : 'Connect Wallet'}
+            {connected ? '7fK3...a2dR' : 'Connect Wallet'}
           </button>
         </div>
       )}
@@ -317,12 +315,13 @@ const Navbar = () => {
   );
 };
 
-/* ───────────────────────── Hero Section ───────────────────────── */
+/* ────────────── Hero Section ────────────── */
 const Hero = () => {
   const revealRef = useReveal();
   const positionsCounter = useCounter(14847, 2200);
   const savedCounter = useCounter(12.4, 2000, 1);
   const responseCounter = useCounter(0.3, 1800, 1);
+  const statsRef = useRef(null);
 
   return (
     <section id="hero" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 1, padding: '120px 24px 60px' }}>
@@ -333,7 +332,7 @@ const Hero = () => {
         </h1>
 
         <p style={{ color: '#8892a4', fontSize: 'clamp(15px, 2vw, 18px)', lineHeight: 1.7, maxWidth: 620, margin: '0 auto 40px' }}>
-          TrenchGuard uses MEV technology to detect whale dumps and dev sells before they hit — automatically protecting your position and alerting you to re-buy at the bottom. Built for the trenches.
+          When TrenchGuard detects a large sell that could crash the price by 30% or more, your position is automatically swapped to SOL before the dump hits. You get an instant alert with the details and the exact price drop, giving you a perfect re-entry point to buy back cheaper.
         </p>
 
         <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 40 }}>
@@ -351,20 +350,20 @@ const Hero = () => {
           >Read Docs</button>
         </div>
 
-        <div className="font-mono" style={{
+        <div ref={statsRef} className="font-mono" style={{
           display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap',
           fontSize: 13, color: '#4a5568',
         }}>
           <span ref={positionsCounter.ref}>
-            <span ref={savedCounter.ref}>
-              <span ref={responseCounter.ref}>
-                <span style={{ color: '#8892a4' }}>{positionsCounter.val.toLocaleString()}</span> positions protected
-                <span style={{ color: '#4a5568' }}> &middot; </span>
-                <span style={{ color: '#8892a4' }}>${savedCounter.val}M</span> in value saved
-                <span style={{ color: '#4a5568' }}> &middot; </span>
-                <span style={{ color: '#8892a4' }}>{responseCounter.val}s</span> avg interception
-              </span>
-            </span>
+            <span style={{ color: '#8892a4' }}>{positionsCounter.val.toLocaleString()}</span> positions protected
+          </span>
+          <span style={{ color: '#4a5568' }}>&middot;</span>
+          <span ref={savedCounter.ref}>
+            <span style={{ color: '#8892a4' }}>${savedCounter.val}M</span> in value saved
+          </span>
+          <span style={{ color: '#4a5568' }}>&middot;</span>
+          <span ref={responseCounter.ref}>
+            <span style={{ color: '#8892a4' }}>{responseCounter.val}s</span> avg interception
           </span>
         </div>
       </div>
@@ -378,15 +377,40 @@ const Hero = () => {
   );
 };
 
-/* ───────────────────────── How It Works ───────────────────────── */
+/* ────────────── How It Works ────────────── */
 const HowItWorksCard = ({ step: s, index: i }) => {
   const cardRef = useReveal();
+  const [imgError, setImgError] = useState(false);
+
+  if (s.image && !imgError) {
+    return (
+      <div
+        ref={cardRef}
+        className={`reveal reveal-delay-${i + 1}`}
+        style={{ borderRadius: 16, overflow: 'hidden' }}
+      >
+        <img
+          src={s.image}
+          alt={s.title}
+          onError={() => setImgError(true)}
+          style={{
+            width: '100%',
+            height: 'auto',
+            display: 'block',
+            borderRadius: 16,
+            border: '1px solid #1a2235',
+          }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       ref={cardRef}
       className={`reveal card-glass reveal-delay-${i + 1}`}
       style={{
-        borderRadius: 14, padding: 32,
+        borderRadius: 16, padding: 32,
         borderTop: `2px solid ${s.color}`,
         boxShadow: `0 -4px 20px ${s.color}15`,
       }}
@@ -409,7 +433,8 @@ const HowItWorks = () => {
   const steps = [
     {
       title: 'Detect', color: '#00f0ff',
-      desc: 'TrenchGuard monitors every token in your portfolio across all Solana DEXs. We track dev wallets, whale positions, and liquidity changes in real-time — if something moves, we see it first.',
+      image: '/detect.png',
+      desc: 'TrenchGuard monitors every token in your portfolio across all Solana DEXs. We track dev wallets, whale positions, and liquidity changes in real-time.',
       tag: '< 400ms detection',
       icon: (
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -421,7 +446,8 @@ const HowItWorks = () => {
     },
     {
       title: 'Intercept', color: '#7b61ff',
-      desc: 'When a threatening sell is detected, TrenchGuard constructs a priority transaction via Jito bundles — exiting your position before the dump impacts the price.',
+      image: '/intercept.png',
+      desc: 'When a threatening sell is detected, TrenchGuard constructs a priority transaction via Jito bundles, exiting your position before the dump impacts the price.',
       tag: 'Jito Bundle Priority',
       icon: (
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -432,7 +458,8 @@ const HowItWorks = () => {
     },
     {
       title: 'Alert & Re-Entry', color: '#00ff88',
-      desc: 'After interception, you receive an instant alert showing your protected position and the price drop %. This lets you re-buy at the new lower price — same bag, better entry.',
+      image: '/reentry.png',
+      desc: 'You get an instant alert showing the detected threat, your protected position, and the exact price drop %. This gives you a new, better entry point to re-buy the same token at a lower price.',
       tag: 'Instant Telegram Alert',
       icon: (
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -446,7 +473,7 @@ const HowItWorks = () => {
   return (
     <section id="how-it-works" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1100, margin: '0 auto' }}>
       <div ref={revealRef} className="reveal" style={{ textAlign: 'center', marginBottom: 60 }}>
-        <h2 className="font-heading" style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12 }}>
+        <h2 className="font-heading" style={{ fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 12 }}>
           How TrenchGuard Protects You
         </h2>
         <p style={{ color: '#8892a4', fontSize: 16, maxWidth: 500, margin: '0 auto' }}>
@@ -463,7 +490,7 @@ const HowItWorks = () => {
   );
 };
 
-/* ───────────────────────── Live Protection Feed ───────────────────────── */
+/* ────────────── Live Protection Feed ────────────── */
 const FEED_TEMPLATES = [
   { type: 'Dev sell detected', token: '$PNUT', amount: '419 SOL', status: 'INTERCEPTED' },
   { type: 'Whale dump blocked', token: '$HAWKS', amount: '1,247 SOL', status: 'PROTECTED' },
@@ -480,15 +507,15 @@ const LiveFeed = () => {
   const [entries, setEntries] = useState([]);
   const idRef = useRef(0);
 
-  useEffect(() => {
-    const makeEntry = () => {
-      const t = FEED_TEMPLATES[idRef.current % FEED_TEMPLATES.length];
-      const now = new Date();
-      const ts = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-      idRef.current++;
-      return { ...t, ts, id: idRef.current };
-    };
+  const makeEntry = useCallback(() => {
+    const t = FEED_TEMPLATES[idRef.current % FEED_TEMPLATES.length];
+    const now = new Date();
+    const ts = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    idRef.current++;
+    return { ...t, ts, id: idRef.current };
+  }, []);
 
+  useEffect(() => {
     const initial = [];
     for (let i = 0; i < 6; i++) initial.push(makeEntry());
     setEntries(initial);
@@ -500,7 +527,7 @@ const LiveFeed = () => {
       });
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [makeEntry]);
 
   return (
     <section id="live-feed" style={{ position: 'relative', zIndex: 1, padding: '80px 24px', maxWidth: 900, margin: '0 auto' }}>
@@ -518,7 +545,7 @@ const LiveFeed = () => {
 
         <div style={{
           borderRadius: 12, overflow: 'hidden',
-          background: 'rgba(8, 10, 16, 0.9)',
+          background: 'rgba(12, 16, 24, 0.8)',
           border: '1px solid #1a2235',
           position: 'relative',
         }}>
@@ -552,6 +579,7 @@ const LiveFeed = () => {
               const isIntercepted = entry.status === 'INTERCEPTED';
               const statusColor = isIntercepted ? '#ff3b5c' : '#00ff88';
               const statusBg = isIntercepted ? 'rgba(255,59,92,0.08)' : 'rgba(0,255,136,0.08)';
+              const statusBorder = isIntercepted ? 'rgba(255,59,92,0.2)' : 'rgba(0,255,136,0.2)';
 
               return (
                 <div
@@ -579,6 +607,7 @@ const LiveFeed = () => {
                     color: statusColor, fontWeight: 600,
                     padding: '2px 8px', borderRadius: 4,
                     background: statusBg,
+                    border: `1px solid ${statusBorder}`,
                     fontSize: 11, whiteSpace: 'nowrap',
                   }}>{entry.status}</span>
                 </div>
@@ -591,15 +620,15 @@ const LiveFeed = () => {
   );
 };
 
-/* ───────────────────────── Features Grid ───────────────────────── */
+/* ────────────── Features Grid ────────────── */
 const FEATURES = [
   {
     title: 'MEV Shield',
-    desc: 'Proprietary MEV engine that turns sandwich attacks into your advantage. The same tech bots use against you — now protecting you.',
+    desc: 'Proprietary MEV engine that turns sandwich attacks into your advantage. The same tech bots use against you, now protecting you.',
     icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <path d="M14 2L3 7.5v7c0 6.5 4.7 12.6 11 14 6.3-1.4 11-7.5 11-14v-7L14 2z" stroke="#00f0ff" strokeWidth="1.5" />
-        <path d="M9 14l3.5 3.5L19 11" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" />
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 2L4 8v8c0 7.1 5.1 13.7 12 15.3C22.9 29.7 28 23.1 28 16V8L16 2z" stroke="#00f0ff" strokeWidth="1.5" />
+        <path d="M11 16l3.5 3.5L21 12" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -607,11 +636,11 @@ const FEATURES = [
     title: 'Jito Integration',
     desc: 'Direct Jito bundle submission for maximum transaction priority. Your exit beats the dump, every time.',
     icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect x="3" y="6" width="22" height="16" rx="2" stroke="#7b61ff" strokeWidth="1.5" />
-        <path d="M3 11h22" stroke="#7b61ff" strokeWidth="1.5" />
-        <path d="M8 17h4" stroke="#7b61ff" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M16 17h4" stroke="#7b61ff" strokeWidth="1.5" strokeLinecap="round" />
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="3" y="7" width="26" height="18" rx="2" stroke="#00f0ff" strokeWidth="1.5" />
+        <path d="M3 12h26" stroke="#00f0ff" strokeWidth="1.5" />
+        <path d="M8 19h5" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M19 19h5" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -619,10 +648,10 @@ const FEATURES = [
     title: 'Smart Re-Entry',
     desc: 'Automated DCA re-buy after price impact. Set your parameters, TrenchGuard handles the rest.',
     icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <path d="M14 4v14" stroke="#00ff88" strokeWidth="1.5" strokeLinecap="round" />
-        <path d="M8 14l6 6 6-6" stroke="#00ff88" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        <line x1="6" y1="24" x2="22" y2="24" stroke="#00ff88" strokeWidth="1.5" strokeLinecap="round" />
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M16 4v16" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" />
+        <path d="M9 15l7 7 7-7" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        <line x1="6" y1="28" x2="26" y2="28" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
     ),
   },
@@ -630,23 +659,23 @@ const FEATURES = [
     title: 'Wallet Tracking',
     desc: "Monitor dev wallets, insider wallets, and whale wallets in real-time. Know what they're doing before it hits the chart.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <circle cx="14" cy="10" r="4" stroke="#00f0ff" strokeWidth="1.5" />
-        <path d="M6 22c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" />
-        <circle cx="21" cy="7" r="3" stroke="#ffaa00" strokeWidth="1.5" />
-        <path d="M20 7h2M21 6v2" stroke="#ffaa00" strokeWidth="1" strokeLinecap="round" />
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="11" r="5" stroke="#00f0ff" strokeWidth="1.5" />
+        <path d="M6 26c0-5.5 4.5-10 10-10s10 4.5 10 10" stroke="#00f0ff" strokeWidth="1.5" strokeLinecap="round" />
+        <circle cx="24" cy="8" r="3" stroke="#00f0ff" strokeWidth="1.5" />
+        <path d="M23 8h2M24 7v2" stroke="#00f0ff" strokeWidth="1" strokeLinecap="round" />
       </svg>
     ),
   },
   {
     title: 'Multi-Token Shield',
-    desc: 'Protect your entire portfolio simultaneously. Set it and forget it — TrenchGuard watches every position.',
+    desc: 'Protect your entire portfolio simultaneously. Set it and forget it, TrenchGuard watches every position.',
     icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect x="4" y="4" width="8" height="8" rx="2" stroke="#7b61ff" strokeWidth="1.5" />
-        <rect x="16" y="4" width="8" height="8" rx="2" stroke="#7b61ff" strokeWidth="1.5" />
-        <rect x="4" y="16" width="8" height="8" rx="2" stroke="#7b61ff" strokeWidth="1.5" />
-        <rect x="16" y="16" width="8" height="8" rx="2" stroke="#7b61ff" strokeWidth="1.5" />
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect x="4" y="4" width="10" height="10" rx="2" stroke="#00f0ff" strokeWidth="1.5" />
+        <rect x="18" y="4" width="10" height="10" rx="2" stroke="#00f0ff" strokeWidth="1.5" />
+        <rect x="4" y="18" width="10" height="10" rx="2" stroke="#00f0ff" strokeWidth="1.5" />
+        <rect x="18" y="18" width="10" height="10" rx="2" stroke="#00f0ff" strokeWidth="1.5" />
       </svg>
     ),
   },
@@ -654,9 +683,9 @@ const FEATURES = [
     title: 'Telegram Alerts',
     desc: 'Instant notifications for every detection, interception, and re-entry. Stay informed without watching charts.',
     icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <path d="M3 13.5L25 4l-3 20-8-5.5L25 4" stroke="#00f0ff" strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M14 18.5V24l3-4" stroke="#00f0ff" strokeWidth="1.5" strokeLinejoin="round" />
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <path d="M3 15L29 4l-3.5 23-9.5-6.5L29 4" stroke="#00f0ff" strokeWidth="1.5" strokeLinejoin="round" />
+        <path d="M16 20.5V27l3.5-4.5" stroke="#00f0ff" strokeWidth="1.5" strokeLinejoin="round" />
       </svg>
     ),
   },
@@ -668,7 +697,7 @@ const FeatureCard = ({ feature: f, index: i }) => {
     <div ref={cardRef} className={`reveal card-glass reveal-delay-${(i % 3) + 1}`}
       style={{ borderRadius: 12, padding: 28 }}>
       <div style={{ marginBottom: 16 }}>{f.icon}</div>
-      <h3 className="font-heading" style={{ fontSize: 17, fontWeight: 700, marginBottom: 10 }}>{f.title}</h3>
+      <h3 className="font-heading" style={{ fontSize: 18, fontWeight: 600, marginBottom: 10 }}>{f.title}</h3>
       <p style={{ color: '#8892a4', fontSize: 14, lineHeight: 1.65 }}>{f.desc}</p>
     </div>
   );
@@ -680,13 +709,13 @@ const FeaturesGrid = () => {
   return (
     <section id="features" style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 1100, margin: '0 auto' }}>
       <div ref={revealRef} className="reveal" style={{ textAlign: 'center', marginBottom: 48 }}>
-        <h2 className="font-heading" style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 800, letterSpacing: '-0.02em', marginBottom: 12 }}>
+        <h2 className="font-heading" style={{ fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 12 }}>
           Built for the Trenches
         </h2>
         <p style={{ color: '#8892a4', fontSize: 16 }}>Every feature designed for degen-speed trading</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
         {FEATURES.map((f, i) => (
           <FeatureCard key={f.title} feature={f} index={i} />
         ))}
@@ -695,7 +724,7 @@ const FeaturesGrid = () => {
   );
 };
 
-/* ───────────────────────── Stats Bar ───────────────────────── */
+/* ────────────── Stats Bar ────────────── */
 const StatsBar = () => {
   const positions = useCounter(14847, 2500);
   const value = useCounter(12.4, 2000, 1);
@@ -713,13 +742,13 @@ const StatsBar = () => {
     <section id="stats" style={{
       position: 'relative', zIndex: 1, padding: '60px 24px',
       borderTop: '1px solid #1a2235', borderBottom: '1px solid #1a2235',
-      background: 'rgba(12,16,24,0.5)',
+      background: 'rgba(6,8,13,0.6)',
     }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 32, textAlign: 'center' }}>
         {stats.map(s => (
           <div key={s.label} ref={s.ref}>
             <div className="font-mono" style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, color: '#e8edf5', marginBottom: 6 }}>{s.val}</div>
-            <div style={{ color: '#4a5568', fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.08em' }}>{s.label}</div>
+            <div style={{ color: '#4a5568', fontSize: 12, fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{s.label}</div>
           </div>
         ))}
       </div>
@@ -727,17 +756,16 @@ const StatsBar = () => {
   );
 };
 
-/* ───────────────────────── CTA Section ───────────────────────── */
+/* ────────────── CTA Section ────────────── */
 const CtaSection = () => {
   const revealRef = useReveal();
 
   return (
-    <section style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 800, margin: '0 auto' }}>
+    <section style={{ position: 'relative', zIndex: 1, padding: '100px 24px', maxWidth: 700, margin: '0 auto' }}>
       <div ref={revealRef} className="reveal"
         style={{
           borderRadius: 20, padding: 'clamp(32px, 5vw, 60px)',
-          background: 'rgba(12,16,24,0.6)',
-          backdropFilter: 'blur(16px)',
+          background: '#0c1018',
           border: '1px solid transparent',
           backgroundClip: 'padding-box',
           position: 'relative',
@@ -756,7 +784,7 @@ const CtaSection = () => {
         }} />
 
         <h2 className="font-heading" style={{
-          fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 900,
+          fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700,
           letterSpacing: '-0.02em', marginBottom: 16,
         }}>
           Stop Getting Rugged.
@@ -771,7 +799,7 @@ const CtaSection = () => {
           marginBottom: 20,
         }}>Launch App</button>
 
-        <p className="font-mono" style={{ color: '#4a5568', fontSize: 12 }}>
+        <p className="font-mono" style={{ color: '#4a5568', fontSize: 13 }}>
           No minimum deposit&nbsp;&nbsp;&middot;&nbsp;&nbsp;Cancel anytime&nbsp;&nbsp;&middot;&nbsp;&nbsp;0.5% protection fee
         </p>
       </div>
@@ -779,29 +807,32 @@ const CtaSection = () => {
   );
 };
 
-/* ───────────────────────── Footer ───────────────────────── */
+/* ────────────── Footer ────────────── */
 const Footer = () => (
-  <footer style={{ position: 'relative', zIndex: 1, padding: '32px 24px' }}>
+  <footer style={{ position: 'relative', zIndex: 1, padding: '40px 24px' }}>
     {/* Gradient top border */}
     <div style={{
       position: 'absolute', top: 0, left: 0, right: 0, height: 1,
-      background: 'linear-gradient(90deg, transparent, rgba(0,240,255,0.2), transparent)',
+      background: 'linear-gradient(90deg, transparent, rgba(0,240,255,0.3), transparent)',
     }} />
 
     <div style={{
       maxWidth: 1100, margin: '0 auto',
       display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 16,
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <ShieldLogo size={20} />
-        <span style={{ color: '#4a5568', fontSize: 13 }}>&copy; 2025 TrenchGuard</span>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <ShieldLogo size={20} />
+          <span className="font-heading" style={{ fontSize: 15, fontWeight: 700, color: '#e8edf5' }}>TrenchGuard</span>
+        </div>
+        <span style={{ color: '#4a5568', fontSize: 12 }}>© 2025 TrenchGuard</span>
       </div>
 
       <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
         {['Docs', 'GitHub', 'Twitter', 'Discord', 'Telegram'].map(l => (
-          <a key={l} href="#" style={{ color: '#8892a4', fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
+          <a key={l} href="#" style={{ color: '#4a5568', fontSize: 13, textDecoration: 'none', transition: 'color 0.2s' }}
             onMouseEnter={e => e.target.style.color = '#e8edf5'}
-            onMouseLeave={e => e.target.style.color = '#8892a4'}
+            onMouseLeave={e => e.target.style.color = '#4a5568'}
           >{l}</a>
         ))}
       </div>
@@ -811,7 +842,7 @@ const Footer = () => (
   </footer>
 );
 
-/* ───────────────────────── App Root ───────────────────────── */
+/* ────────────── App Root ────────────── */
 export default function TrenchGuard() {
   return (
     <>
